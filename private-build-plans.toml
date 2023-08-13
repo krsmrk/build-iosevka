@@ -1,0 +1,30 @@
+[buildPlans.iosevka-skiouros]
+family = "Iosevka Skiouros"
+spacing = "normal"
+serifs = "sans"
+no-cv-ss = false
+export-glyph-names = true
+
+[buildPlans.iosevka-skiouros.variants.design]
+capital-i = "short-serifed"
+capital-j = "serifed-symmetric"
+capital-q = "crossing"
+f = "flat-hook-serifless"
+t = "flat-hook"
+y = "straight-turn-serifless"
+eszet = "sulzbacher-descending-serifless"
+brace = "straight"
+number-sign = "slanted"
+at = "fourfold"
+percent = "rings-continuous-slash"
+lig-ltgteq = "slanted"
+lig-double-arrow-bar = "without-notch"
+lig-single-arrow-bar = "without-notch"
+
+[buildPlans.iosevka-skiouros.variants.italic]
+a = "double-storey-serifless"
+d = "toothed-serifless"
+i = "serifed"
+k = "straight-serifless"
+l = "serifed"
+cyrl-capital-u = "straight-turn-serifless"
