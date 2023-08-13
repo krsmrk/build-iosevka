@@ -7,8 +7,8 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /usr/src/app
 
-RUN git clone https://github.com/be5invis/Iosevka.git
-WORKDIR Iosevka
+ADD https://github.com/be5invis/Iosevka/archive/refs/tags/v26.1.0.tar.gz /tmp
+RUN tar -xzf /tmp/v26.1.0.tar.gz -C . --strip-components=1
 
 RUN npm install 
 
