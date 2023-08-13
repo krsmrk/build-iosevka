@@ -1,0 +1,27 @@
+name: Docker Container Build and Artifact Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t iosevka-custom .
+
+      - name: Run Docker container and build file
+        run: docker run  -v /usr/dist:/usr/src/app/build-iosevka/dist iosevka-custom
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: iosevka
+          path: /usr/dist
+
