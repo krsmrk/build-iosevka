@@ -4,24 +4,46 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  IOSEVKA_VERSION: v34.8.1
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: Build Docker image
-        run: docker build -t iosevka-custom .
+        run: docker build --build-arg IOSEVKA_VERSION=${{ env.IOSEVKA_VERSION }} -t iosevka-custom .
 
       - name: Run Docker container and build file
-        run: docker run  -v ./dist:/usr/src/app/dist iosevka-custom
+        run: docker run --rm -v "${{ github.workspace }}/dist:/usr/src/app/dist" iosevka-custom
 
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v3
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
         with:
-          name: iosevka
+          name: iosevka-${{ env.IOSEVKA_VERSION }}
           path: ./dist/
+          if-no-files-found: error
 
+      - name: Zip dist for release
+        run: cd dist && zip -r ../iosevka-skiouros-${{ env.IOSEVKA_VERSION }}.zip .
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: font-${{ env.IOSEVKA_VERSION }}
+          name: Iosevka Skiouros ${{ env.IOSEVKA_VERSION }}
+          files: iosevka-skiouros-${{ env.IOSEVKA_VERSION }}.zip
+          fail_on_unmatched_files: true
+          overwrite_files: true

@@ -2,8 +2,12 @@
 family = "Iosevka Skiouros"
 spacing = "normal"
 serifs = "sans"
-no-cv-ss = false
-export-glyph-names = true
+exportGlyphNames = true
+webfontFormats = ['TTF', 'WOFF2']
+
+[buildPlans.iosevka-skiouros.ligations]
+inherits = "default-calt"
+enables = ["markdown-checkboxes", "hash-hash", "tilde-tilde"]
 
 [buildPlans.iosevka-skiouros.variants.design]
 capital-i = "short-serifed"
